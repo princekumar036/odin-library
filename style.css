@@ -1,4 +1,9 @@
 
+:root {
+    --main-color: #9292fe;
+    --accent-color: #11b421;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,8 +14,10 @@
 body {
     margin: 0;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    height: 100vh;
 }
 
+/* HEADER AREA */
 header {
     background-color: #555;
     color: white;
@@ -18,105 +25,109 @@ header {
     padding: 0.5rem;
 }
 
-.book-catalogue {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    max-width: 900px;
-    margin: 2rem auto;
+main {
+    display: flex;
+    min-height: 100%;
 }
 
-.book-catalogue > div {
-    box-shadow: 0 0 5px #ccc;
-    border: 1px solid #eee;
-    padding: 0 1rem;
-}
-
+/* FORM AREA */
 .book-add {
-    display: grid;
-    place-content: center;
-    font-size: 5rem;
-    cursor: pointer;
+    flex: 1;
+    background-color: var(--main-color);
+    padding: 3rem;
+    color: white;
 }
 
-.book-add i {
-    transition: transform 1s ease-in-out;
-}
-
-.book-add:hover i {
-    transform: rotate(180deg);
-}
-
-.book-card {
-    line-height: 2;
-}
-
-.book-card div {
+.book-add > div {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 2rem;
+    gap: 10px;
 }
 
-.status-change {
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
-}
-
-.book-status:hover .status-change {
-    opacity: 1;
-}
-
-.form {
-    background-color: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    place-content: center;
-}
-
-.form.hidden {
-    display: none;
+.book-add > div i {
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 2rem;
 }
 
 form {
-    background-color: white;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    padding: 3rem 5rem;
-    font-weight: bold;
-    font-size: 1.25rem;
+    margin: 3rem 0;
+
 }
 
 .form-control {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    gap: 3rem;
-    margin-bottom: 1rem;
 }
+
 .form-control input {
+    min-width: 180px;
     padding: 5px;
-    min-width: 300px;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    border: none;
+}
+
+.form-control input:focus {
+    outline: none;
 }
 
 form button {
-    font-size: 1.5rem;
-    font-weight: bold;
-    border: none;    
-    background-color: #18c118;
+    border: 2px solid white;
+    background-color: transparent;
+    padding: 10px;
     color: white;
-    padding: 5px;
-    cursor: pointer;
+    font-weight: bold;
     margin-top: 1rem;
-    box-shadow: 5px 5px 5px #aaa;
-    transition: box-shadow 0.1s linear;
+    cursor: pointer;
 }
 
-form button:hover {
-    box-shadow: none;
+
+/* CATALOGUE AREA */
+.library {
+    flex: 4;
+    margin: 2rem;
+}
+
+.book-catalogue {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+
+.book-card {
+    box-shadow: 0 0 5px #ccc;
+    border: 1px solid #eee;
+    padding: 0.5rem 1rem;
+    line-height: 2;
+}
+
+.book-card > div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    color: var(--main-color);
+}
+
+.status span {
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.3s linear;
+}
+
+.status:hover span {
+    opacity: 1;
+}
+
+.delete {
+    cursor: pointer;
+}
+
+.delete:hover {
+    color: var(--accent-color);
 }

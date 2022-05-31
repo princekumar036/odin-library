@@ -15,66 +15,68 @@ function addToLibrary(title, author, pages, status) {
     library.push(newBook)
 }
 
-
-// Open form
-document.querySelector('.book-add').addEventListener('click', () => {
-    document.querySelector('div.form').classList.remove('hidden')
-})
-// Hide form when clicked outside it
-document.querySelector('div.form').onclick = (e) => {
-    if (e.target == document.querySelector('div.form')) { 
-        document.querySelector('div.form').classList.add('hidden')
-    }
-}
-
 // Add book to library on form submit
-document.querySelector('form').addEventListener('submit', (e) => {
+const form = document.querySelector('form')
+form.addEventListener('submit', (e) => {
     e.preventDefault()
 
     // Get form data
-    let formData = new FormData(document.querySelector('form'))
+    let formData = new FormData(document.forms.addBook)
     let status = formData.get('status') === 'on' ? true : false
 
     // Add book to library
+    console.log(formData.get('title'), formData.get('author'), formData.get('pages'), status)
     addToLibrary(formData.get('title'), formData.get('author'), formData.get('pages'), status)
 
-    // Hide the form and show library
-    document.querySelector('.form').classList.toggle('hidden')
+    // Reset form
+    form.reset()
+
     showLibrary()
 })
 
-
-
-
-
-
-// addToLibrary('Alice in the Wonderland', 'Lewis Caroll', '150', true)
-// addToLibrary('The Lord of the Rings', 'JRR Tolkein', '800', false)
-
 function showLibrary() {
+    document.querySelector('.book-catalogue').innerHTML = ''
     library.forEach(book => {
+
+        let statusHTML = ''
+        if (book.status === 'null') {
+            statusHTML = `<i class="mdi mdi-check"></i><span data-attribute="${library.indexOf(book)}"> Mark as not read</span>`
+        }
+        else {
+            statusHTML = `<span data-attribute="${library.indexOf(book)}"> Mark as read</span>`
+        }
+
         let bookHTML = `
             <div class="book-card">
-                <p class="book-title"><strong>${book.title}</strong></p>
-                <p class="book-author"><em>${book.author}</em></p>
-                <p class="book-pages">Page count: ${book.pages}</p>
-                <div>${book.status ? '<p class="book-status">\
-                                        <i class="mdi mdi-check"></i>\
-                                        <span class="status-change">Mark as incomplete</span>\
-                                        </p>' : '\
-                                        <p class="book-status">\
-                                        <i class="mdi mdi-close"></i>\
-                                        <span class="status-change">Mark as complete</span>\
-                                        </p>'}
-                    <p><i class="mdi mdi-trash-can delete"></i></p>
+                <h3>${book.title}</h3>
+                <p>Author(s): <em>${book.author}</em></p>
+                <p>Page Count: ${book.pages}</p>
+                <div>
+                    <div class="status">${statusHTML}</div>
+                    <div class="delete" data-attribute="${library.indexOf(book)}"><i class="mdi mdi-delete"></i></div>
                 </div>
             </div>`
+        
         document.querySelector('.book-catalogue').innerHTML += bookHTML
     })
 }
 
+addToLibrary('Alice in the Wonderland', 'Lewis Caroll', '150', true)
+addToLibrary('The Lord of the Rings', 'JRR Tolkein', '800', false)
+showLibrary()
 
 
+// Delete a book
+const deleteBtns = document.querySelectorAll('.delete')
+deleteBtns.forEach(deleteBtn => {
+    deleteBtn.addEventListener('click', (e) => {
+        bookIndex = e.target.parentElement.getAttribute('data-attribute')
+        library.splice(bookIndex, 1)
+        console.log(library)
+        showLibrary()
+    })
+})
 
-
-// showLibrary()
+// document.querySelector('.status span').addEventListener('click', (e) => {
+//     console.log(e)
+// })
